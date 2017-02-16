@@ -13,7 +13,7 @@ namespace MovieCollection.Web.Models
 
         public string Title { get; set; }
 
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public string Tagline { get; set; }
         
