@@ -6,8 +6,14 @@ namespace MovieCollection.Web.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
+        [HttpGet]
         public ActionResult Index()
+        {       
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(Movie searchMovie)
         {
             TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408");
             TMDbLib.Objects.Movies.Movie movieFromApi = client.GetMovieAsync(47964).Result;
@@ -17,9 +23,9 @@ namespace MovieCollection.Web.Controllers
             movie.Title = movieFromApi.Title;
             movie.ReleaseDate = movieFromApi.ReleaseDate;
             movie.Tagline = movieFromApi.Tagline;
-            movie.ImageUrl = movieFromApi.PosterPath;        
+            movie.ImageUrl = movieFromApi.PosterPath;
 
             return View(movie);
-        }        
+        }
     }
 }
