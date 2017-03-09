@@ -21,6 +21,7 @@ namespace MovieCollection.Web.Controllers
         [HttpPost]
         public ActionResult Index(string movieSearch)
         {
+            movieSearch = "Tommy Boy";
             TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408");
             SearchContainer<SearchMovie> movieFromApi = client.SearchMovieAsync(movieSearch).Result;
             

@@ -1,7 +1,22 @@
-﻿
+﻿@model IList<MovieCollection.Web.Models.Movie>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<ul>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <li>@item.Id</li>
+            <li>@item.Title</li>
+            <li>@item.ReleaseDate</li>
+            <li>@item.ImageUrl</li>
+        }
+    }
+</ul>
