@@ -8,6 +8,16 @@
     ViewBag.Title = "Index";
 }
 
+<form method="post">
+    <div class="form-group">
+        <label for="movieSearch">Name:</label>
+        <input type="text" class="form-control" id="movieSearch">
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </div>
+</form>
+
 <ul>
     @if (Model != null)
     {
