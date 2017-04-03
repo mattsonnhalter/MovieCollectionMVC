@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MovieCollection.Web.Models;
+using MovieCollection.Web.Viewmodels;
 using TMDbLib.Client;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
@@ -15,18 +16,17 @@ namespace MovieCollection.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(new MovieIndexViewmodel());
         }
 
         [HttpPost]
-        public ActionResult Index(string movieSearch)
+        public ActionResult Index(MovieIndexViewmodel movieSearch)
         {
-            movieSearch = "Tommy Boy";
-            TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408");
-            SearchContainer<SearchMovie> movieFromApi = client.SearchMovieAsync(movieSearch).Result;
-            
-            var movieList = new List<Movie>();
+            movieSearch.movieModels = new List<Movie>();
 
+            TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408");
+            SearchContainer<SearchMovie> movieFromApi = client.SearchMovieAsync(movieSearch.searchModel.Title).Result;
+            
             foreach (var m in movieFromApi.Results)
             {
                 Movie localMovie = new Movie();
@@ -36,10 +36,10 @@ namespace MovieCollection.Web.Controllers
                 localMovie.ReleaseDate = m.ReleaseDate;
                 localMovie.ImageUrl = m.PosterPath;
 
-                movieList.Add(localMovie);
+                movieSearch.movieModels.Add(localMovie);
             }
 
-            return View(movieList);
+            return View(movieSearch);
         }
     }
 }

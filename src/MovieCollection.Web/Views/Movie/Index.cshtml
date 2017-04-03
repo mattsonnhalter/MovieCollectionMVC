@@ -1,4 +1,4 @@
-﻿@model IList<MovieCollection.Web.Viewmodels.MovieIndexViewmodel>
+﻿@model MovieCollection.Web.Viewmodels.MovieIndexViewmodel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,20 +8,15 @@
     ViewBag.Title = "Index";
 }
 
-<form method="post">
-    <div class="form-group">
-        <label for="movieSearch">Name:</label>
-        <input type="text" class="form-control" id="movieSearch">
-    </div>
-    <div>
-        <input class="btn btn-primary" type="submit" value="Submit">
-    </div>
-</form>
+@using (Html.BeginForm())
+{
+    @Html.TextBoxFor(model => model.searchModel.Title)
+}
 
 <ul>
-    @if (Model != null)
+    @if (Model.movieModels != null)
     {
-        foreach (var item in Model)
+        foreach (var item in Model.movieModels)
         {
             <li>@item.Id</li>
             <li>@item.Title</li>
