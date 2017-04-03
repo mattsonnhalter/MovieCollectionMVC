@@ -8,10 +8,17 @@
     ViewBag.Title = "Index";
 }
 
-@using (Html.BeginForm())
-{
-    @Html.TextBoxFor(model => model.searchModel.Title)
-}
+<p>
+    @using (Html.BeginForm())
+    {
+        @Html.LabelFor(model => model.searchModel.Title, new { @class = "" })
+        <br />
+        @Html.TextBoxFor(model => model.searchModel.Title, new { @class = "" })
+        <br />
+        <br />
+        <input type="button" value="Submit" class="btn btn-primary"/>
+    }
+</p>
 
 <ul>
     @if (Model.movieModels != null)
