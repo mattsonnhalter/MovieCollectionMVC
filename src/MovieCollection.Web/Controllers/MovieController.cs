@@ -16,18 +16,18 @@ namespace MovieCollection.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(new MovieIndexViewmodel());
+            return View(new MovieIndexViewModel());
         }
 
         [HttpPost]
-        public ActionResult Index(MovieIndexViewmodel movieSearch)
+        public ActionResult Index(MovieIndexViewModel movieViewModel)
         {
-            movieSearch.movieModels = new List<Movie>();
+            movieViewModel.movieModels = new List<Movie>();
 
             TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408");
-            SearchContainer<SearchMovie> movieFromApi = client.SearchMovieAsync(movieSearch.searchModel.Title).Result;
+            SearchContainer<SearchMovie> movieApiResults = client.SearchMovieAsync(movieViewModel.searchModel.Title).Result;
             
-            foreach (var m in movieFromApi.Results)
+            foreach (var m in movieApiResults.Results)
             {
                 Movie localMovie = new Movie();
                
@@ -36,10 +36,10 @@ namespace MovieCollection.Web.Controllers
                 localMovie.ReleaseDate = m.ReleaseDate;
                 localMovie.ImageUrl = m.PosterPath;
 
-                movieSearch.movieModels.Add(localMovie);
+                movieViewModel.movieModels.Add(localMovie);
             }
 
-            return View(movieSearch);
+            return View(movieViewModel);
         }
     }
 }

@@ -147,7 +147,7 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Search.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Viewmodels\MovieIndexViewmodel.cs" />
+    <Compile Include="ViewModels\MovieIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

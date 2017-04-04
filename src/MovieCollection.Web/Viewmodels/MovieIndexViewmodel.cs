@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MovieCollection.Web.Viewmodels
 {
-    public class MovieIndexViewmodel
+    public class MovieIndexViewModel
     {
         public List<Movie> movieModels { get; set; }
         public Search searchModel { get; set; }
