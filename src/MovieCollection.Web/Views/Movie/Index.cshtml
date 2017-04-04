@@ -8,27 +8,34 @@
     ViewBag.Title = "Index";
 }
 
-<p>
-    @using (Html.BeginForm())
-    {
-        @Html.LabelFor(model => model.searchModel.Title, new { @class = "" })
-        <br />
-        @Html.TextBoxFor(model => model.searchModel.Title, new { @class = "" })
-        <br />
-        <br />
-        <input type="button" value="Submit" class="btn btn-primary"/>
-    }
-</p>
-
-<ul>
-    @if (Model.movieModels != null)
-    {
-        foreach (var item in Model.movieModels)
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
         {
-            <li>@item.Id</li>
-            <li>@item.Title</li>
-            <li>@item.ReleaseDate</li>
-            <li>@item.ImageUrl</li>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.searchModel.Title, new { @for = "searchTitleId" })
+                @Html.TextBoxFor(model => model.searchModel.Title, new { @class = "form-control input-lg", @placeholder = "Title", @id = "searchTitleId" })
+                @Html.ValidationMessageFor(model => model.searchModel.Title)
+            </div>
+            <input type="button" value="Submit" class="btn btn-primary" />
         }
-    }
-</ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <ul>
+            @if (Model.movieModels != null)
+            {
+                foreach (var item in Model.movieModels)
+                {
+                    <li>@item.Id</li>
+                    <li>@item.Title</li>
+                    <li>@item.ReleaseDate</li>
+                    <li>@item.ImageUrl</li>
+                }
+            }
+         </ul>
+    </div>
+</div>
