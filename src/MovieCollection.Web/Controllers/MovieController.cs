@@ -34,7 +34,7 @@ namespace MovieCollection.Web.Controllers
                 localMovie.Id = m.Id;
                 localMovie.Title = m.Title;
                 localMovie.ReleaseDate = m.ReleaseDate;
-                localMovie.ImageUrl = m.PosterPath;
+                localMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + m.PosterPath;
 
                 movieViewModel.movieModels.Add(localMovie);
             }

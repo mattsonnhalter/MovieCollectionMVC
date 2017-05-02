@@ -24,16 +24,27 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <ul>
             @if (Model.movieModels != null)
             {
                 foreach (var item in Model.movieModels)
                 {
-                    <li>@item.Id</li>
-                    <li>@item.Title</li>
-                    <li>@item.ReleaseDate</li>
-                    <li>@item.ImageUrl</li>
+                    <div class="col-md-4">
+                        <li>@item.Title</li>
+                        <li>@item.ReleaseDate</li>
+                        <li>
+                            @if (item.ImageUrl != "http://image.tmdb.org/t/p/w185/")
+                            {
+                                <img src="@item.ImageUrl" />
+                            }
+                            else
+                            {
+                                <img src="~/Images/No-Image.png" />
+                            }
+
+                        </li>
+                    </div>
                 }
             }
          </ul>
