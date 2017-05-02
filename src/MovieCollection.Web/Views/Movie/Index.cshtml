@@ -24,29 +24,24 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <ul>
-            @if (Model.movieModels != null)
-            {
-                foreach (var item in Model.movieModels)
-                {
-                    <div class="col-md-4">
-                        <li>@item.Title</li>
-                        <li>@item.ReleaseDate</li>
-                        <li>
-                            @if (item.ImageUrl != "http://image.tmdb.org/t/p/w185/")
-                            {
-                                <img src="@item.ImageUrl" />
-                            }
-                            else
-                            {
-                                <img src="~/Images/No-Image.png" />
-                            }
-
-                        </li>
-                    </div>
-                }
-            }
-         </ul>
-    </div>
+    @if (Model.movieModels != null)
+    {
+        foreach (var item in Model.movieModels)
+        {
+            <ul class="list-unstyled">
+                <li class="col-md-4">@item.Title</li>
+                <li class="col-md-4">@item.ReleaseDate</li>
+                <li class="col-md-4">
+                    @if (item.ImageUrl != "http://image.tmdb.org/t/p/w185/")
+                    {
+                        <img src="@item.ImageUrl" />
+                    }
+                    else
+                    {
+                        <img src="~/Images/No-Image.png" />
+                    }
+                </li>
+            </ul>
+        }
+    }
 </div>
