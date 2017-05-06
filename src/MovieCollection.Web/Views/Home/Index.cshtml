@@ -7,18 +7,18 @@
 @{
     ViewBag.Title = "Home";
 }
-
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" style="height:500px;"></div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
         @using (Html.BeginForm())
         {
-
             <div class="form-group">
-                @Html.LabelFor(model => model.searchModel.Title, new { @for = "searchTitleId" })
-                @Html.TextBoxFor(model => model.searchModel.Title, new { @class = "form-control input-lg", @placeholder = "Title", @id = "searchTitleId" })
+                @Html.TextBoxFor(model => model.searchModel.Title, new { @class = "form-control input-lg", @placeholder = "Search...", @id = "searchTitleId" })
                 @Html.ValidationMessageFor(model => model.searchModel.Title)
             </div>
-            <input type="button" value="Submit" class="btn btn-primary" />
+            <input type="button" value="Submit" class="btn btn-secondary center-block" />
         }
     </div>
 </div>
