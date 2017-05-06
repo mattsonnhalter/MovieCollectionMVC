@@ -21,7 +21,7 @@ namespace MovieCollection.Web.Controllers
         {
             movieViewModel.movieModels = new List<Movie>();
 
-            TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408");
+            TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408"); //TODO: Eventually make this key a config value
             SearchContainer<SearchMovie> movieApiResults = client.SearchMovieAsync(movieViewModel.searchModel.Title).Result;
 
             foreach (var m in movieApiResults.Results)
