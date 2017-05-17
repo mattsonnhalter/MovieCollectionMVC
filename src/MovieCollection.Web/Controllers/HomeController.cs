@@ -12,8 +12,26 @@ namespace MovieCollection.Web.Controllers
     {
         [HttpGet]
         public ActionResult Index()
-        {       
-            return View(new MovieIndexViewModel());
+        {
+            MovieIndexViewModel popularMovies = new MovieIndexViewModel();
+            popularMovies.movieModels = new List<Movie>();
+
+            TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408"); //TODO: Eventually make this key a config value
+            SearchContainer<SearchMovie> movieApiResults = client.GetMoviePopularListAsync().Result;
+
+            foreach (var newMovie in movieApiResults.Results)
+            {
+                Movie popularMovie = new Movie();
+
+                popularMovie.Id = newMovie.Id;
+                popularMovie.Title = newMovie.Title;
+                popularMovie.ReleaseDate = newMovie.ReleaseDate;
+                popularMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + newMovie.PosterPath;
+
+                popularMovies.movieModels.Add(popularMovie);
+            }
+
+            return View(popularMovies);
         }
 
         [HttpPost]
