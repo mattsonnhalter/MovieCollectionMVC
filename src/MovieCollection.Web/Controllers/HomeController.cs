@@ -5,6 +5,7 @@ using MovieCollection.Web.Viewmodels;
 using TMDbLib.Client;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
+using System.Configuration;
 
 namespace MovieCollection.Web.Controllers
 {
@@ -16,7 +17,7 @@ namespace MovieCollection.Web.Controllers
             MovieIndexViewModel popularMovies = new MovieIndexViewModel();
             popularMovies.movieModels = new List<Movie>();
 
-            TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408"); //TODO: Eventually make this key a config value
+            TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
             SearchContainer<SearchMovie> movieApiResults = client.GetMoviePopularListAsync().Result;
 
             foreach (var newMovie in movieApiResults.Results)
@@ -39,17 +40,17 @@ namespace MovieCollection.Web.Controllers
         {
             movieViewModel.movieModels = new List<Movie>();
 
-            TMDbClient client = new TMDbClient("1d51304d2d0506fca98f49b582707408"); //TODO: Eventually make this key a config value
+            TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
             SearchContainer<SearchMovie> movieApiResults = client.SearchMovieAsync(movieViewModel.searchModel.Title).Result;
 
-            foreach (var m in movieApiResults.Results)
+            foreach (var movie in movieApiResults.Results)
             {
                 Movie localMovie = new Movie();
 
-                localMovie.Id = m.Id;
-                localMovie.Title = m.Title;
-                localMovie.ReleaseDate = m.ReleaseDate;
-                localMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + m.PosterPath;
+                localMovie.Id = movie.Id;
+                localMovie.Title = movie.Title;
+                localMovie.ReleaseDate = movie.ReleaseDate;
+                localMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + movie.PosterPath;
 
                 movieViewModel.movieModels.Add(localMovie);
             }
