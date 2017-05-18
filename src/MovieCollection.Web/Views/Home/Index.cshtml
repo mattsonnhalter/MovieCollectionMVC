@@ -13,10 +13,9 @@
     {
         foreach (var item in Model.movieModels)
         {
-            <ul class="list-unstyled">
-                <li class="col-md-4">@item.Title</li>
-                <li class="col-md-4">@item.ReleaseDate</li>
-                <li class="col-md-4">
+            <div class="col-md-4">
+                <span>@item.Title</span>
+                <span>
                     @if (item.ImageUrl != "http://image.tmdb.org/t/p/w185/")
                     {
                         <img src="@item.ImageUrl" />
@@ -25,8 +24,8 @@
                     {
                         <img src="~/Images/No-Image.png" />
                     }
-                </li>
-            </ul>
+                </span>
+            </div>
         }
     }
 </div>
