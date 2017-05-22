@@ -5,7 +5,8 @@ namespace MovieCollection.Web.Viewmodels
 {
     public class MovieIndexViewModel
     {
-        public List<Movie> movieModels { get; set; }
+        public List<MoviePopular> popularMovieModel { get; set; }
+        public List<MovieSearch> searchMovieModel { get; set; }
         public Search searchModel { get; set; }
     }
 }

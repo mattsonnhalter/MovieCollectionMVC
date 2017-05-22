@@ -15,21 +15,21 @@ namespace MovieCollection.Web.Controllers
         public ActionResult Index()
         {
             MovieIndexViewModel popularMovies = new MovieIndexViewModel();
-            popularMovies.movieModels = new List<Movie>();
+            popularMovies.popularMovieModel = new List<MoviePopular>();
 
             TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
             SearchContainer<SearchMovie> movieApiResults = client.GetMoviePopularListAsync().Result;
 
             foreach (var newMovie in movieApiResults.Results)
             {
-                Movie popularMovie = new Movie();
+                MoviePopular popularMovie = new MoviePopular();
 
                 popularMovie.Id = newMovie.Id;
                 popularMovie.Title = newMovie.Title;
                 popularMovie.ReleaseDate = newMovie.ReleaseDate;
                 popularMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + newMovie.PosterPath;
 
-                popularMovies.movieModels.Add(popularMovie);
+                popularMovies.popularMovieModel.Add(popularMovie);
             }
 
             return View(popularMovies);
@@ -38,21 +38,21 @@ namespace MovieCollection.Web.Controllers
         [HttpPost]
         public ActionResult Index(MovieIndexViewModel movieViewModel)
         {
-            movieViewModel.movieModels = new List<Movie>();
+            movieViewModel.searchMovieModel = new List<MovieSearch>();
 
             TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
             SearchContainer<SearchMovie> movieApiResults = client.SearchMovieAsync(movieViewModel.searchModel.Title).Result;
 
             foreach (var movie in movieApiResults.Results)
             {
-                Movie localMovie = new Movie();
+                MovieSearch localMovie = new MovieSearch();
 
                 localMovie.Id = movie.Id;
                 localMovie.Title = movie.Title;
                 localMovie.ReleaseDate = movie.ReleaseDate;
                 localMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + movie.PosterPath;
 
-                movieViewModel.movieModels.Add(localMovie);
+                movieViewModel.searchMovieModel.Add(localMovie);
             }
 
             return View(movieViewModel);

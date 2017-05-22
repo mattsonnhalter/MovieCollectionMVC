@@ -5,13 +5,13 @@
 }
 
 @{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Movie Collection";
 }
 
 <div class="row">
-    @if (Model.movieModels != null)
+    @if (Model.popularMovieModel != null)
     {
-        foreach (var item in Model.movieModels)
+        foreach (var item in Model.popularMovieModel)
         {
             <div class="col-md-4">
                 <span>@item.Title</span>
@@ -45,9 +45,9 @@
 </div>
 
 <div class="row">
-    @if (Model.movieModels != null)
+    @if (Model.searchMovieModel != null)
     {
-        foreach (var item in Model.movieModels)
+        foreach (var item in Model.searchMovieModel)
         {
             <ul class="list-unstyled">
                 <li class="col-md-4">@item.Title</li>
