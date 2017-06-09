@@ -8,7 +8,7 @@
     ViewBag.Title = "Movie Collection";
 }
 
-<div class="row">
+@*<div class="row">
     @if (Model.popularMovieModel != null)
     {
         foreach (var item in Model.popularMovieModel)
@@ -28,18 +28,16 @@
             </div>
         }
     }
-</div>
+</div>*@
 <div class="row">
     <div class="col-xs-4 col-xs-offset-4">
         @using (Html.BeginForm())
         {
             <div class="form-group row vertical-center">
                 @Html.TextBoxFor(model => model.searchModel.Title, new { @class = "form-control input-lg", @placeholder = "Movie Name...", @id = "searchTitleId" })
-                @Html.ValidationMessageFor(model => model.searchModel.Title)   
-            </div>
-            @*<div>
+                @Html.ValidationMessageFor(model => model.searchModel.Title)  
                 <input type="button" value="Search" class="btn btn-secondary center-block" />
-            </div>*@
+            </div>
         }
     </div>    
 </div>
@@ -49,20 +47,21 @@
     {
         foreach (var item in Model.searchMovieModel)
         {
-            <ul class="list-unstyled">
-                <li class="col-md-4">@item.Title</li>
-                <li class="col-md-4">@item.ReleaseDate</li>
-                <li class="col-md-4">
-                    @if (item.ImageUrl != "http://image.tmdb.org/t/p/w185/")
-                    {
-                        <img src="@item.ImageUrl" />
-                    }
-                    else
-                    {
-                        <img src="~/Images/No-Image.png" />
-                    }
-                </li>
-            </ul>
+            <div class="col-md-4">
+                <ul class="list-unstyled">
+                    <li style="text-align:center">@item.Title</li>
+                    <li style="text-align: center">
+                        @if (item.ImageUrl != "http://image.tmdb.org/t/p/w185/")
+                        {
+                            <img src="@item.ImageUrl" />
+                        }
+                        else
+                        {
+                            <img src="~/Images/No-Image.png" />
+                        }
+                    </li>
+                </ul>
+            </div>
         }
     }
 </div>

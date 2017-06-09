@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using MovieCollection.Web.Models;
 using MovieCollection.Web.Viewmodels;
@@ -42,17 +43,32 @@ namespace MovieCollection.Web.Controllers
 
             TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
             SearchContainer<SearchMovie> movieApiResults = client.SearchMovieAsync(movieViewModel.searchModel.Title).Result;
-
-            foreach (var movie in movieApiResults.Results)
+            if (movieApiResults.TotalResults >= 1)
             {
-                MovieSearch localMovie = new MovieSearch();
+                foreach (var movie in movieApiResults.Results)
+                {
+                    MovieSearch localMovie = new MovieSearch
+                    {
+                        Id = movie.Id,
+                        Title = movie.Title,
+                        ReleaseDate = movie.ReleaseDate,
+                        ImageUrl = "http://image.tmdb.org/t/p/w185/" + movie.PosterPath
+                    };
 
-                localMovie.Id = movie.Id;
-                localMovie.Title = movie.Title;
-                localMovie.ReleaseDate = movie.ReleaseDate;
-                localMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + movie.PosterPath;
+                    movieViewModel.searchMovieModel.Add(localMovie);
+                }
+            }
+            else
+            {
+                MovieSearch noResultsMovie = new MovieSearch
+                {
+                    Id = 0,
+                    Title = "No Title",
+                    ReleaseDate = DateTime.Now,
+                    ImageUrl = "http://image.tmdb.org/t/p/w185/"
+                };
 
-                movieViewModel.searchMovieModel.Add(localMovie);
+                movieViewModel.searchMovieModel.Add(noResultsMovie);
             }
 
             return View(movieViewModel);
