@@ -15,23 +15,7 @@ namespace MovieCollection.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            MovieIndexViewModel popularMovies = new MovieIndexViewModel();
-            popularMovies.popularMovieModel = new List<MoviePopular>();
-
-            TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
-            SearchContainer<SearchMovie> movieApiResults = client.GetMoviePopularListAsync().Result;
-
-            foreach (var newMovie in movieApiResults.Results)
-            {
-                MoviePopular popularMovie = new MoviePopular();
-
-                popularMovie.Id = newMovie.Id;
-                popularMovie.Title = newMovie.Title;
-                popularMovie.ReleaseDate = newMovie.ReleaseDate;
-                popularMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + newMovie.PosterPath;
-
-                popularMovies.popularMovieModel.Add(popularMovie);
-            }
+            var popularMovies = GetPopularMovies();
 
             return View(popularMovies);
         }
@@ -72,6 +56,28 @@ namespace MovieCollection.Web.Controllers
             }
 
             return View(movieViewModel);
+        }
+
+        private MovieIndexViewModel GetPopularMovies()
+        {
+            MovieIndexViewModel popularMovies = new MovieIndexViewModel();
+            popularMovies.popularMovieModel = new List<MoviePopular>();
+
+            TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
+            SearchContainer<SearchMovie> movieApiResults = client.GetMoviePopularListAsync().Result;
+
+            foreach (var newMovie in movieApiResults.Results)
+            {
+                MoviePopular popularMovie = new MoviePopular();
+
+                popularMovie.Id = newMovie.Id;
+                popularMovie.Title = newMovie.Title;
+                popularMovie.ReleaseDate = newMovie.ReleaseDate;
+                popularMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + newMovie.PosterPath;
+
+                popularMovies.popularMovieModel.Add(popularMovie);
+            }
+            return popularMovies;
         }
     }
 }
