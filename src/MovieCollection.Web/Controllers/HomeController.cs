@@ -15,18 +15,28 @@ namespace MovieCollection.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var popularMovies = GetPopularMovies();
+            MovieIndexViewModel indexViewModel = new MovieIndexViewModel();
 
-            return View(popularMovies);
+            GetPopularMovies(indexViewModel);
+
+            return View(indexViewModel);
+        }
+    
+        [HttpPost]
+        public ActionResult Index(MovieIndexViewModel indexViewModel)
+        {
+            GetPopularMovies(indexViewModel);
+            GetSearchResults(indexViewModel);
+
+            return View(indexViewModel);
         }
 
-        [HttpPost]
-        public ActionResult Index(MovieIndexViewModel movieViewModel)
+        private void GetSearchResults(MovieIndexViewModel indexViewModel)
         {
-            movieViewModel.searchMovieModel = new List<MovieSearch>();
+            indexViewModel.searchMovieModel = new List<MovieSearch>();
 
             TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
-            SearchContainer<SearchMovie> movieApiResults = client.SearchMovieAsync(movieViewModel.searchModel.Title).Result;
+            SearchContainer<SearchMovie> movieApiResults = client.SearchMovieAsync(indexViewModel.searchModel.Title).Result;
             if (movieApiResults.TotalResults >= 1)
             {
                 foreach (var movie in movieApiResults.Results)
@@ -39,7 +49,7 @@ namespace MovieCollection.Web.Controllers
                         ImageUrl = "http://image.tmdb.org/t/p/w185/" + movie.PosterPath
                     };
 
-                    movieViewModel.searchMovieModel.Add(localMovie);
+                    indexViewModel.searchMovieModel.Add(localMovie);
                 }
             }
             else
@@ -52,32 +62,29 @@ namespace MovieCollection.Web.Controllers
                     ImageUrl = "http://image.tmdb.org/t/p/w185/"
                 };
 
-                movieViewModel.searchMovieModel.Add(noResultsMovie);
+                indexViewModel.searchMovieModel.Add(noResultsMovie);
             }
-
-            return View(movieViewModel);
         }
 
-        private MovieIndexViewModel GetPopularMovies()
+        private void GetPopularMovies(MovieIndexViewModel indexViewModel)
         {
-            MovieIndexViewModel popularMovies = new MovieIndexViewModel();
-            popularMovies.popularMovieModel = new List<MoviePopular>();
+            indexViewModel.popularMovieModel = new List<MoviePopular>();
 
             TMDbClient client = new TMDbClient(ConfigurationManager.AppSettings["TMDbKey"]);
             SearchContainer<SearchMovie> movieApiResults = client.GetMoviePopularListAsync().Result;
 
             foreach (var newMovie in movieApiResults.Results)
             {
-                MoviePopular popularMovie = new MoviePopular();
+                MoviePopular popularMovie = new MoviePopular
+                {
+                    Id = newMovie.Id,
+                    Title = newMovie.Title,
+                    ReleaseDate = newMovie.ReleaseDate,
+                    ImageUrl = "http://image.tmdb.org/t/p/w185/" + newMovie.PosterPath
+                };
 
-                popularMovie.Id = newMovie.Id;
-                popularMovie.Title = newMovie.Title;
-                popularMovie.ReleaseDate = newMovie.ReleaseDate;
-                popularMovie.ImageUrl = "http://image.tmdb.org/t/p/w185/" + newMovie.PosterPath;
-
-                popularMovies.popularMovieModel.Add(popularMovie);
+                indexViewModel.popularMovieModel.Add(popularMovie);
             }
-            return popularMovies;
         }
     }
 }
